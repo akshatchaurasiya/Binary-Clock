@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Binary Clock</title>
+	<style type="text/css">
+		body {
+			background-image: url(bgimg2.jpg);
+			background-repeat: no-repeat;
+			background-attachment: fixed;
+			background-size: 100%;
+			background-color: #111;
+			font-family: Arial, sans-serif;
+		}
+		.hou, .min, .sec {
+			text-align: center;
+			margin-bottom: 25px;
+		}
+		.houch, .minch, .secch {
+			border: solid black 5px;
+			position: relative;
+			display: inline-block;
+			background-color: #ced9eb33;
+			color: #bbceed55;
+			transition: all 0.2s ease;
+		}
+		.houch, .minch {
+			border-radius: 10%;
+			font-size: 4rem;
+			width: 10%;
+			padding: 10px 0;
+		}
+		.secch {
+			border-radius: 50%;
+			font-size: 2.5rem;
+			width: 6%;
+			padding: 10px 0;
+		}
+	</style>
+</head>
+<body>
+	<br><br><br><br>
+	
+	<div class="hou">
+		<div class="houch" id="hr8">8</div>
+		<div class="houch" id="hr4">4</div>
+		<div class="houch" id="hr2">2</div>
+		<div class="houch" id="hr1">1</div>
+	</div>
+
+	<div class="min">
+		<div class="minch" id="min32">32</div>
+		<div class="minch" id="min16">16</div>
+		<div class="minch" id="min8">8</div>
+		<div class="minch" id="min4">4</div>
+		<div class="minch" id="min2">2</div>
+		<div class="minch" id="min1">1</div>
+	</div>
+
+	<div class="sec">
+		<div class="secch" id="sec32">32</div>
+		<div class="secch" id="sec16">16</div>
+		<div class="secch" id="sec8">8</div>
+		<div class="secch" id="sec4">4</div>
+		<div class="secch" id="sec2">2</div>
+		<div class="secch" id="sec1">1</div>
+	</div>
+
+	<script type="text/javascript">
+		function updateBinaryRow(currentTimeValue, bitArray, prefix) {
+			bitArray.forEach(bit => {
+				const element = document.getElementById(prefix + bit);
+				if (!element) return;
+				if (currentTimeValue & bit) {
+					element.style.backgroundColor = "red";
+					element.style.color = "#f5d5d544";
+				} else {
+					element.style.backgroundColor = "#ced9eb33";
+					element.style.color = "#bbceed55";
+				}
+			});
+		}
+
+		function ctime() {
+			var today 	= new Date();
+			var ch   	= today.getHours();
+			var cmin 	= today.getMinutes(); 
+			var cs   	= today.getSeconds();
+
+			ch = ch % 12;
+			if (ch === 0) ch = 12; 
+
+			const hourBits = [8, 4, 2, 1];
+			const minSecBits = [32, 16, 8, 4, 2, 1];
+
+			updateBinaryRow(ch, hourBits, "hr");
+			updateBinaryRow(cmin, minSecBits, "min");
+			updateBinaryRow(cs, minSecBits, "sec");
+		}
+		ctime();
+		setInterval(ctime, 1000);
+	</script>
+</body>
+</html>
